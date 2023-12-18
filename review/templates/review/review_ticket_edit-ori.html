@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="ticket_review">
+        <h2>Modifier un billet</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div class="post">
+                    <h3>Livre / Article</h3>
+                    {{ ticket_form.as_p }}
+                </div>
+                <button type="submit" >Publier</button>
+                <hr>
+                <div class="post">
+                    <h3>Critique</h3>
+                    {{ review_form.as_p }}
+                </div>
+            
+        </form>
+    </div>
+{% endblock content %}

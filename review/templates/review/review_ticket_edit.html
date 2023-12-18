@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="main-container">
+        <div class="flux">
+            <form method="post" enctype="multipart/form-data">
+                <h2>Modifier le billet</h2>
+                <div class="head-post">
+                    <span>
+                        <h4>Vous voulez modifier votre critique</h4>
+                    </span>
+            </div>
+                <div class="review">
+                    {{ edit_review_form.as_p }}
+                </div>
+                <div class="ticket">
+                    <div class="auteur">
+                        <h4 > Ticket - ({{ ticket.user }}) </h4>
+                        <p>{{ ticket.title }}</p>
+                        <div class="image-container">
+                            <img class="image" src="{{ ticket.image.url }}" alt="">
+                            <div class="description">
+                                <h2>Description :</h2>
+                                <p>
+                                    {{ ticket.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% csrf_token %}
+                <button class="button-right" type="submit" >Envoyer</button>
+            </form>
+            <form action="{% url 'post' %}" method='post'>
+                {% csrf_token %}
+                <button type="submit">Retour</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

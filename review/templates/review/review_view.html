@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h2>{{ Review.title }}</h2>
+    <p><a href="{% url 'review_edit' review.id %}" >Modifier la critique</a></p>
+    <p>{{ review.ticket.caption }}</p>
+    <p>{{ review.content }}</p>
+{% endblock content %}

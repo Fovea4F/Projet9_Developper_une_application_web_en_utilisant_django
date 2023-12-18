@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h2>Titre : {{ Review.title }}</h2>
+    <p><a href="{% url 'ticket_edit' ticket.id %}" >Modifier la critique</a></p>
+    <img src="{{ review.ticket.image.url }}">
+    <p>{{ review.description }}</p>
+{% endblock content %}

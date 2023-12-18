@@ -1,0 +1,34 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>LITReview</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="shortcut icon" type="images" href="{% static 'images/favicon-reverse.ico' %}">
+    </head> 
+    <body>
+        <div>
+            <header class="header">
+                <div class="banner">
+                    <div class="banner-title">
+                        <h1>LITReview</h1>
+                    </div>
+                    <nav class="banner-link">
+                        {% if user.is_authenticated %}
+                            <ul class="menu">
+                                <li><a href="{% url 'home' %}" class="default-active">Flux</a></li>
+                                <li><a href="{% url 'post' %}">Posts</a></li>
+                                <li><a href="{% url 'follow_user' %}">Abonnement</a></li>
+                                    <li><a href="{% url 'logout' %}">Déconnecter ({{ request.user }})</a></li>
+                            </ul>
+                        {% endif %}
+                    </nav>
+                </div>
+            </header>
+        </div>
+        {% block content %}
+        {% endblock content %}
+        
+    </body>
+</html>

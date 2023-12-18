@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h2>Supprimer</h2>
+    <form method="post" enctype="multipart/form-data">
+        {{ delete_ticket_form.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Supprimer</button>
+    </form>
+{% endblock content %}
