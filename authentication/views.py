@@ -58,16 +58,3 @@ def profile_photo_update(request):
             form.save()
             return redirect('home')
     return render(request, 'authentication/profile_photo_update.html', context={'form': form})
-
-
-@login_required
-def follow_users(request):
-
-    follow_form = forms.UserFollowsForm(instance=request.user)
-    if request.method == 'POST':
-        follow_form = forms.UserFollowsForm(request.POST, instance=request.user)
-        if follow_form.is_valid():
-            follow_form.save()
-            return redirect('home')
-    context = {'follow_form': follow_form}
-    return render(request, 'authentication/follow_user.html', context)

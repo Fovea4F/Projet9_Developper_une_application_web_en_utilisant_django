@@ -3,7 +3,7 @@
     <div>
         <form method="post" class="subscription">
             <div class="elements">
-                {{ follow_form.as_p }}
+                {{ form.as_p }}
                 {% csrf_token %}
                 <button type="submit" >Confirmer</button>
             </div>

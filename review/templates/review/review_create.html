@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+    <div class="main-container">
+        <div class="flux">
+            <h2> Vous êtes en train de poste une réponse à </h2>
+            <form method="post" enctype="multipart/form-data">
+                <div class="ticket">
+                    <div class="auteur">
+                        <h4 > Ticket - {{ ticket.user }} </h4>
+                        <p>{{ ticket.title }}</p>
+                        <div class="image-container">
+                            <img class="image" src="{{ ticket.image.url }}" alt="">
+                            <div class="description">
+                                <h2>Description :</h2>
+                                <p>
+                                    {{ ticket.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h3>Critique</h3>
+                <div class="review">
+                    <p>
+                        <label for="id_headline" >Titre&nbsp;:</label>
+                        <input class="id_headline" type="text" name="headline" maxlength="128" required="" id="id_headline" placeholder="Titre de votre critique">
+                    </p>
+                    <div class="radio">
+                            <label for="id_rating">Note&nbsp;:</label>
+                            <div class="radio-inline">
+                                <div><input type="radio" id="option1" name="rating" value="0" required> - 0</div>
+                                <div><input type="radio" id="option1" name="rating" value="1"> - 1</div>
+                                <div><input type="radio" id="option2" name="rating" value="2"> - 2</div>
+                                <div><input type="radio" id="option3" name="rating" value="3"> - 3</div>
+                                <div><input type="radio" id="option3" name="rating" value="4"> - 4</div>
+                                <div><input type="radio" id="option3" name="rating" value="5"> - 5</div>
+                            </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="id_body">Commentaire&nbsp;:</label>
+                        <textarea class="id_body" id="id_body" name="body" rows="4" cols="50" placeholder="Saisissez votre avis...." required=""></textarea>
+                    </div>
+                        <form action="{% url 'review_create' ticket.id %}" method='post'>
+                        {% csrf_token %}
+                        <input class="review_create_button" type="submit" value="Envoyer">
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>  
+{% endblock content %}

@@ -15,9 +15,3 @@ class SignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ('username', )
-
-
-class UserFollowsForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['follows']

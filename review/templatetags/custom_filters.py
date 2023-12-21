@@ -17,3 +17,12 @@ def convert_to_stars_filter(rating):  # give 2 args : rating given, max_rating a
         full_stars = '★' * rating  # Utilisation du caractère étoile pleine
         empty_stars = '☆' * (max_rating - rating)  # Utilisation du caractère étoile vide
         return f'{full_stars}{empty_stars}'
+
+
+@register.simple_tag
+def notation_boutons(max_value):
+
+    boutons = ''
+    for i in range(1, max_value):
+        boutons += '<label><input type="radio" value="{i}">{i}</label>'
+    return boutons

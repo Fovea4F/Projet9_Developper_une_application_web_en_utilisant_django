@@ -29,6 +29,14 @@ class DeleteReviewForm(forms.Form):
         fields = ['headline', 'rating', 'body']
 
 
+class UserFollowsForm2(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        users = kwargs.pop('not_followed_users')
+        super(UserFollowsForm2, self).__init__(*args, **kwargs)
+        self.fields['follows'] = forms.ModelMultipleChoiceField(queryset=users, widget=forms.CheckboxSelectMultiple)
+
+
 class UserFollowsForm(forms.ModelForm):
     class Meta:
         model = User

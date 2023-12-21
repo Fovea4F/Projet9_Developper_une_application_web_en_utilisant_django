@@ -35,31 +35,34 @@
                         <div class="head-post">
                             <div class="review">
                                 <span>
-                                    <h4>Vous pouvez ajouter une critique !</h4>
+                                    <form action="{% url 'review_create' element.0.id %}" method='post'>
+                                        {% csrf_token %}
+                                        <button class="flux-button-right" type="submit">Ajoutez une Critique</button>
+                                    </form>
                                 </span>
                             </div>
                         </div>
                 {% endif %}
 
-                <div class="ticket">
-                    <div class="auteur">
-                        <h4 > 
-                            Ticket - ({{ element.0.user }})
-                        </h4>
-                        <p>
-                            {{ element.0.title }}
-                        </p>
-                        <div class="image-container">
-                            <img class="image" src="{{ element.0.image.url }}" alt="">
-                            <div class="description">
-                                <h2>Description :</h2>
-                                <p>
-                                    {{ element.0.description }}
-                                </p>
+                    <div class="ticket">
+                        <div class="auteur">
+                            <h4 > 
+                                Ticket - ({{ element.0.user }})
+                            </h4>
+                            <p>
+                                {{ element.0.title }}
+                            </p>
+                            <div class="image-container">
+                                <img class="image" src="{{ element.0.image.url }}" alt="">
+                                <div class="description">
+                                    <h2>Description :</h2>
+                                    <p>
+                                        {{ element.0.description }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     {% endfor %}
