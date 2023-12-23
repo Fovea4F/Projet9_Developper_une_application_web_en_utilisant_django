@@ -120,9 +120,12 @@ html, body {
     margin-bottom:10px;
     display: flex;
     justify-content: center;
-    h2 {
-        text-align: center;
-    }
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-container.h2 {
+    text-align: center;
 }
 
 .flux {
@@ -182,11 +185,11 @@ html, body {
     width: 99%
 }
 
-.auteur {
+.author {
     text-align: left;
 }
 
-.auteur > p {
+.author > p {
     font-size: x-large;
     font-weight: bold;
 }
@@ -195,7 +198,12 @@ html, body {
     display: flex;
     justify-content: right;
     margin: 5px;
-    
+    padding: 10px;
+    div {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
 }
 
 .post-button button {

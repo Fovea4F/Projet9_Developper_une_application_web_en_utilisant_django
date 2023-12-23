@@ -2,7 +2,17 @@
 {% load custom_filters %}
 
 {% block content %}
-    <h2>Créer un ticket</h2>
+<div class="main-container">
+    <div class="flux">
+        <h2> Créer un ticket </h2>
+        <form method="post" enctype="multipart/form-data">
+            <div class="post">
+                <h3>Livre / Article</h3>
+                {{ ticket_form.as_p }}
+            </div>
+        </form>
+    </div>
+</div>    <h2>Créer un ticket</h2>
     <form method="post" enctype="multipart/form-data">
         {{ ticket_form.as_p }}
         {% csrf_token %}

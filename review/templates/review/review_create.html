@@ -6,7 +6,7 @@
             <h2> Vous êtes en train de poste une réponse à </h2>
             <form method="post" enctype="multipart/form-data">
                 <div class="ticket">
-                    <div class="auteur">
+                    <div class="author">
                         <h4 > Ticket - {{ ticket.user }} </h4>
                         <p>{{ ticket.title }}</p>
                         <div class="image-container">
@@ -30,19 +30,19 @@
                     <div class="radio">
                             <label for="id_rating">Note&nbsp;:</label>
                             <div class="radio-inline">
-                                <div><input type="radio" id="option1" name="rating" value="0" required> - 0</div>
+                                <div><input type="radio" id="option0" name="rating" value="0" required> - 0</div>
                                 <div><input type="radio" id="option1" name="rating" value="1"> - 1</div>
                                 <div><input type="radio" id="option2" name="rating" value="2"> - 2</div>
                                 <div><input type="radio" id="option3" name="rating" value="3"> - 3</div>
-                                <div><input type="radio" id="option3" name="rating" value="4"> - 4</div>
-                                <div><input type="radio" id="option3" name="rating" value="5"> - 5</div>
+                                <div><input type="radio" id="option4" name="rating" value="4"> - 4</div>
+                                <div><input type="radio" id="option5" name="rating" value="5"> - 5</div>
                             </div>
                     </div>
                     <div class="input-wrapper">
                         <label for="id_body">Commentaire&nbsp;:</label>
                         <textarea class="id_body" id="id_body" name="body" rows="4" cols="50" placeholder="Saisissez votre avis...." required=""></textarea>
                     </div>
-                        <form action="{% url 'review_create' ticket.id %}" method='post'>
+                    <form action="{% url 'review_create' ticket.id %}" method='post'>
                         {% csrf_token %}
                         <input class="review_create_button" type="submit" value="Envoyer">
                     </form>

@@ -3,19 +3,39 @@
 
 {% block content %}
     <div class="main-container">
+        <div class="main-title">
+            <h2>Modifier le billet</h2>
+        </div>
         <div class="flux">
             <form method="post" enctype="multipart/form-data">
-                <h2>Modifier le billet</h2>
+                {% csrf_token %}
                 <div class="head-post">
                     <span>
                         <h4>Vous voulez modifier votre critique</h4>
                     </span>
-            </div>
+                </div>
                 <div class="review">
-                    {{ edit_review_form.as_p }}
+                    <p>
+                        <label for="{{ edit_review_form.id_headline }}" >Titre&nbsp;:</label>
+                        <input class="id_headline" type="text" name="{{ edit_review_form.headline.name }}" value="{{ edit_review_form.headline.value }}" maxlength="128" required="" id="edit_review_form.id_headline">
+                    </p>
+                    <div class="radio">
+                        <label for="id_rating" >Note&nbsp;:</label>
+                        <div class="radio-inline">
+                            {% for radio in rating_form.rating %}
+                                <div>{{ radio.tag }} {{ radio.rating_label }}
+                                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="body">Commentaire&nbsp;:</label>
+                        <textarea class="id_body" id="id_body" rows="4" cols="50" required="" name="{{ edit_review_form.body.name }}">{{ edit_review_form.body.value }} </textarea>
+                    </div> 
                 </div>
                 <div class="ticket">
-                    <div class="auteur">
+                    <div class="author">
                         <h4 > Ticket - ({{ ticket.user }}) </h4>
                         <p>{{ ticket.title }}</p>
                         <div class="image-container">
@@ -29,12 +49,9 @@
                         </div>
                     </div>
                 </div>
-                {% csrf_token %}
-                <button class="button-right" type="submit" >Envoyer</button>
-            </form>
-            <form action="{% url 'post' %}" method='post'>
-                {% csrf_token %}
-                <button type="submit">Retour</button>
+                <div class="post-button">
+                    <button class="button-right" type="submit">Envoyer</button>
+                </div>
             </form>
         </div>
     </div>

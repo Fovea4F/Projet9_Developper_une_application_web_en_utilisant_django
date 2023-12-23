@@ -23,16 +23,18 @@
                         <p class="headline">{{ element.1.body }}
                     </div>
                     {% else %}
-                        <div class="head-post">
-                            <div class="review">
-                                <span>
-                                    <h4>Vous pouvez ajouter une critique !</h4>
-                                </span>
-                            </div>
+                    <div class="head-post">
+                        <div class="review">
+                            <span>
+                                <form action="{% url 'review_create' element.0.id %}" method='post'>
+                                    {% csrf_token %}
+                                    <button class="flux-button-right" type="submit">Ajoutez une Critique</button>
+                                </form>
+                            </span>
                         </div>
-                {% endif %}
+                    </div>                {% endif %}
                 <div class="ticket">
-                    <div class="auteur">
+                    <div class="author">
                         <h4 > Ticket - ({{ element.0.user }}) </h4>
                         <p>{{ element.0.title }}</p>
                         <div class="image-container">
@@ -48,14 +50,18 @@
                 </div>
                 {% csrf_token %}
                 <div class="post-button">
-                    <form action="{% url 'review_ticket_edit' element.0.id %}" method='post'>
-                        {% csrf_token %}
-                        <button type="submit">Modifier</button>
-                    </form>
-                    <form action="{% url 'review_ticket_delete' element.0.id %}" method='post'>
-                        <button type="submit">Supprimer</button>
-                        {% csrf_token %}
-                    </form>
+                    <div>
+                        <form action="{% url 'review_ticket_edit' element.0.id %}" method='post'>
+                            {% csrf_token %}
+                            <button type="submit">Modifier</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form action="{% url 'review_ticket_delete' element.0.id %}" method='post'>
+                            <button type="submit">Supprimer</button>
+                            {% csrf_token %}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

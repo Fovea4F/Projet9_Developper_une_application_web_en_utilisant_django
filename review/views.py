@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Ticket, Review, UserFollows
 from authentication.models import User
-from .forms import TicketForm, ReviewForm, DeleteTicketForm, DeleteReviewForm, UserFollowsForm
+from .forms import TicketForm, ReviewForm, RatingForm, DeleteTicketForm, UserFollowsForm
 
 
 @login_required
@@ -149,28 +149,6 @@ def review_create(request, ticket_id):
 
 
 @login_required
-def review_ticket_edit1(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
-    review = ticket.review_set.first()
-    if request.method == 'POST':
-        ticket_form = TicketForm(instance=ticket)
-        review_form = ReviewForm(instance=review)
-        if ticket_form.is_valid():
-            ticket_form.save()
-
-            if review_form.is_valid():
-                review_form.save()
-            return redirect('post')
-    else:
-        ticket_form = TicketForm(instance=ticket)
-    context = {
-        'ticket_form': ticket_form,
-        'review_form': review_form,
-        }
-    return render(request, 'review/review_ticket_edit.html', context=context)
-
-
-@login_required
 def review_ticket_create(request):
     ticket_form = TicketForm()
     review_form = ReviewForm()
@@ -197,16 +175,18 @@ def review_ticket_create(request):
 def review_ticket_edit(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     review = ticket.review_set.first()
-    edit_review_form = ReviewForm(instance=review)
     if request.method == 'POST':
         review_form = ReviewForm(request.POST, instance=review)
         if review_form.is_valid():
-            review_ok = edit_review_form.save(commit=False)
-            review_ok.save()
+            review.save()
             return redirect('post')
+        else:
+            edit_review_form = ReviewForm(instance=review)
+            rating_form = RatingForm(initial={'rating': review.rating})
     context = {
         'ticket': ticket,
         'edit_review_form': edit_review_form,
+        'rating_form': rating_form,
         }
     return render(request, 'review/review_ticket_edit.html', context=context)
 
