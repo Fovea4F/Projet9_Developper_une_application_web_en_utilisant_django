@@ -1,10 +1,11 @@
-from django.db.models import Q
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Ticket, Review, UserFollows
+from review.models import Ticket, Review
 from authentication.models import User
-from .forms import TicketForm, ReviewForm, RatingForm, DeleteTicketForm, UserFollowsForm
+from .forms import TicketForm, ReviewForm, ReviewFormDual, DeleteTicketForm, DeleteReviewForm
+from .forms import FollowsUsersForm, RatingForm
 
 
 @login_required
@@ -150,20 +151,28 @@ def review_create(request, ticket_id):
 
 @login_required
 def review_ticket_create(request):
-    ticket_form = TicketForm()
-    review_form = ReviewForm()
+    ticket_form = TicketForm(request.user)
+    review_form = ReviewFormDual(request.user)
+
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, request.FILES)
-        review_form = ReviewForm(request.POST)
-        if all([review_form.is_valid(), ticket_form.is_valid()]):
+        review_form = ReviewFormDual(request.POST)
+        if ticket_form.is_valid():
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.ticket = ticket
-            review.save()
-            return redirect('home')
+            if review_form.is_valid():
+                review = review_form.save(commit=False)
+                if (review.rating):
+                    review.user = request.user
+                    review.ticket = ticket
+                    review.save()
+        return redirect('home')
+    else:
+        ticket_form = TicketForm(initial={'user': request.user})
+
+        review_form = ReviewFormDual(initial={'rating': None})
+
     context = {
         'review_form': review_form,
         'ticket_form': ticket_form,
@@ -206,41 +215,44 @@ def review_ticket_delete(request, ticket_id):
 
 
 @login_required
-def follow_users1(request):
-
-    user_id = request.user
-    follow_form = UserFollows.objects.filter().exclude(user=user_id)
-    '''follow_form = UserFollows.objects.filter(
-                        user=request.user).exclude(
-                        user=UserFollows.user,
-                        followed_user=UserFollows.followed_user
-                        )'''
-    if request.method == 'POST':
-        follow_form = UserFollowsForm(request.POST, user_id)
-        if follow_form.is_valid():
-            follow_form.save()
-            return redirect('home')
-    context = {'follow_form': follow_form}
-    return render(request, 'review/follow_user.html', context)
-
-
-@login_required
-def follow_users(request):
-
-    not_followed_users = User.objects.filter(
-            Q(follows__in=request.user.follows.all())
-    )
+def follow_users_ori(request):
 
     if request.method == 'POST':
-        form = UserFollowsForm(request.POST, queryset=not_followed_users)
+        form = FollowsUsersForm(request.POST)
         if form.is_valid():
             form.save(commit=False)
             form.save()
             return redirect('home')
     else:
-        form = UserFollowsForm(request.user, queryset=not_followed_users)
+        form = FollowsUsersForm(request.user)
         print('toto')
 
     context = {'form': form}
 
-    return render(request, 'review/follow_user.html', context)
+    return render(request, 'review/follow_users.html', context)
+
+
+@login_required
+def follow_users2(request):
+    form = FollowsUsersForm(instance=request.user)
+    if request.method == 'POST':
+        form = FollowsUsersForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    return render(request, 'review/follow_users.html', context={'form': form})
+
+
+@login_required
+def follow_users(request):
+
+    filtered_users = User.objects.exclude(pk=request.user.pk).exclude(is_staff=True)
+
+    form_followers = FollowsUsersForm(instance=request.user, filtered_queryset=filtered_users)
+    if request.method == 'POST':
+        form_followers = FollowsUsersForm(request.POST, instance=request.user)
+        if form_followers.is_valid():
+            form_followers.save()
+            return redirect('home')
+
+    return render(request, 'review/follow_users.html', context={'form': form_followers})

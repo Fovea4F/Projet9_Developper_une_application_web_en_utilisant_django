@@ -10,7 +10,7 @@
             </p>
         {% endif %}
     </div>
-    
+
     {% for element in tickets_and_review %}
         <div class="main-container">
             <div class="flux">
@@ -43,26 +43,25 @@
                             </div>
                         </div>
                 {% endif %}
-
-                    <div class="ticket">
-                        <div class="author">
-                            <h4 > 
-                                Ticket - ({{ element.0.user }})
-                            </h4>
-                            <p>
-                                {{ element.0.title }}
-                            </p>
-                            <div class="image-container">
-                                <img class="image" src="{{ element.0.image.url }}" alt="">
-                                <div class="description">
-                                    <h2>Description :</h2>
-                                    <p>
-                                        {{ element.0.description }}
-                                    </p>
-                                </div>
+                <div class="ticket">
+                    <div class="author">
+                        <h4 > 
+                            Ticket - ({{ element.0.user }})
+                        </h4>
+                        <p>
+                            {{ element.0.title }}
+                        </p>
+                        <div class="image-container">
+                            <img class="image" src="{{ element.0.image.url }}" alt="">
+                            <div class="description">
+                                <h2>Description :</h2>
+                                <p>
+                                    {{ element.0.description }}
+                                </p>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     {% endfor %}

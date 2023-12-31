@@ -13,5 +13,11 @@ class LoginForm(forms.Form):
 
 class SignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
+        widgets = {
+            'username': forms.TextInput(attrs={'autocomplete': 'new-password'}),
+            'password1': forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+            'password2': forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        }
+
         model = get_user_model()
         fields = ('username', )

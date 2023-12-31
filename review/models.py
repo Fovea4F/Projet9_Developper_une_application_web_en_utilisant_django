@@ -31,25 +31,25 @@ class Review(models.Model):
     rating = models.PositiveSmallIntegerField(
         # validates that rating must be between 0 and 5
         validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Note', null=False, blank=False)
-    headline = models.CharField(max_length=128, verbose_name='Titre', null=False, blank=False)
-    body = models.CharField(max_length=8192, verbose_name='Commentaire', null=False, blank=False)
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    headline = models.CharField(max_length=128, verbose_name='Titre', null=False, blank=True)
+    body = models.CharField(max_length=8192, verbose_name='Commentaire', null=False, blank=True)
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
 
 class UserFollows(models.Model):
-    # Your UserFollows model definition goes here
+
     user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='following'
         )
     followed_user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='followed_by')
+        related_name='followed_by'
+        )
+    contribution = models.CharField(max_length=255, blank=True)
 
     class Meta:
-        # ensures we don't get multiple UserFollows instances
-        # for unique user-user_followed pairs
         unique_together = ('user', 'followed_user', )

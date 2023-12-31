@@ -1,23 +1,33 @@
-{% extends 'base.html' %}
-{% block content %}
-    <!--<div class="column">-->
-    <div>
-        <h2>Inscription</h2>
-        {% if form.errors %}
-            {{ form.errors }}
-        {% endif %}
+{% extends "base.html" %}
+{% block content %}   
+    <div class="signup">
         <div>
-            <form method="post">
-                {{ form.as_p }}
-                {% csrf_token %}
-                <button type="submit" >S’inscrire</button>
-            </form>
+            <h2>Inscrivez-vous</h2>
+            {% if form.errors %}
+                {{ form.errors }}
+            {% endif %}
         </div>
-        <div class='column'>
-            <form action="{% url 'login' %}" method="post">
+        <div class="signup-form">
+            <form method="post">
                 {% csrf_token %}
-                <button type="submit" >Retourner</button>
+                <div>
+                    <input class="signup-text" type="text" name="username" placeholder="Nom d'utilisateur" maxlength="150" autocapitalize="none" autofocus="" required="" id="id_username">
+                </div>
+                <div>
+                    <input class="signup-text" type="password" name="password1" placeholder="Mot de passe" required="" id="id_password1">
+                </div>
+                <div>
+                    <input class="signup-text" type="password" name="password2" placeholder="Confirmer mot de passe" required="" id="id_password2">
+                </div>
+                <div class="signup-confirm">
+                    <button type="submit">S'inscrire</button>
+                </div>
             </form>
+            <div class="signup-decline">
+                <form action="{% url 'login' %}" method="get">
+                    <button type="submit">Retourner</button>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock content %}

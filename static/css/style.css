@@ -83,7 +83,7 @@ html, body {
 
 /* CSS pour les colonnes */
 .container {
-    display: flex; /* Utilisation de flexbox pour les colonnes */
+    display: flex;
 }
 
 .column {
@@ -346,4 +346,50 @@ html, body {
     height: 30px;
     width: 120px;
     margin-top: 1vw;
+}
+
+.signup{
+    justify-items: center;
+    display: grid;
+}
+
+.signup-text {
+    font-weight: bold;
+    text-align: center;
+    width: 300px;
+    height: 30px;
+    margin: 20px;
+}
+
+.signup-form {
+    display: grid;
+}
+
+.signup-confirm {
+    padding: 5px;
+    margin: 5px;
+    display: grid;
+    justify-items: right;
+    button {
+        width: 150px;
+        height: 30px;
+        border: 1px solid black;
+    }
+}
+
+.signup-decline {
+    padding: 5px;
+    margin: 5px;
+    display: grid;
+    justify-items: right;
+    button {
+        width: 150px;
+        height: 30px;
+        border: 1px solid black;
+    }
+}
+
+.follows_user{
+    justify-items: center;
+    display: grid;
 }

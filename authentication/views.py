@@ -29,13 +29,16 @@ def login_page(request):
 
 
 def signup_page(request):
-    form = forms.SignupForm(request.POST)
+
+    initial_data = {'username': '', 'password1': '', 'password2': ''}
+    form = forms.SignupForm()
     if request.method == 'POST':
-        form = forms.SignupForm(request.POST)
+        form = forms.SignupForm(request.POST, initial=initial_data)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect(settings.LOGIN_REDIRECT_URL)
+
     return render(request, 'authentication/signup.html', context={'form': form})
 
 
@@ -43,18 +46,3 @@ def signup_page(request):
 def logout_page(request):
     logout(request)
     return redirect('login')
-
-
-@login_required
-def profile_photo_update(request):
-    form = forms.UpLoadProfilePhotoForm()
-    if request.method == 'POST':
-        form = forms.UpLoadProfilePhotoForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save(commit=False)
-            # set the avatar to the good user before saving the model
-            # user.profile_photo = request.FILES
-            # now we can save
-            form.save()
-            return redirect('home')
-    return render(request, 'authentication/profile_photo_update.html', context={'form': form})

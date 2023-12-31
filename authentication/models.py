@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 
@@ -12,5 +11,6 @@ class User(AbstractUser):
         (CREATOR, 'Créateur'),
         (SUBSCRIBER, 'Abonné'),
     )
-    role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Rôle')
-    follows = models.ManyToManyField('self', symmetrical=False, verbose_name='Personnes suivies')
+
+    profile_photo = models.ImageField(verbose_name='Photo de profil', null=True)
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Rôle', null=True)
