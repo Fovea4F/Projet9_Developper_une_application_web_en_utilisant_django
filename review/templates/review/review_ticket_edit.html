@@ -15,24 +15,30 @@
                     </span>
                 </div>
                 <div class="review">
-                    <p>
-                        <label for="{{ edit_review_form.id_headline }}" >Titre&nbsp;:</label>
-                        <input class="id_headline" type="text" name="{{ edit_review_form.headline.name }}" value="{{ edit_review_form.headline.value }}" maxlength="128" required="" id="edit_review_form.id_headline">
-                    </p>
-                    <div class="radio">
-                        <label for="id_rating" >Note&nbsp;:</label>
-                        <div class="radio-inline">
-                            {% for radio in rating_form.rating %}
-                                <div>{{ radio.tag }} {{ radio.rating_label }}
-                                    <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                    print(review_form.initial['rating'])
+                    <h3>Critique</h3>
+                    <div class="review">
+                        <p>
+                            <label for="id_headline" >Titre&nbsp;:</label>
+                            <input class="id_headline" type="text" name="headline" maxlength="128" value="{{ review_form.headline.value }}" required="" id="id_headline" placeholder="Titre de votre critique">
+                        </p>
+                        <div class="radio">
+                            <label for="id_rating">Note&nbsp;:</label>
+                                <div class="radio-inline">
+                                    {% for i in loop_times %}
+                                        <span><input type="radio" id="option{{ i }}" name="rating" value="{{ i }}" required {% if review_form.initial.rating == i %} checked {% endif %}></span>
+                                    {% endfor %}
                                 </div>
-                            {% endfor %}
+                            </div>
+                        <div class="input-wrapper">
+                            <label for="id_body">Commentaire&nbsp;:</label>
+                            <textarea class="id_body" id="id_body" name="body" rows="4" cols="50" placeholder="Saisissez votre avis...." required="">{{ review_form.body.value }}</textarea>
                         </div>
+                        <form action="{% url 'review_ticket_edit' ticket.id %}" method='post'>
+                            {% csrf_token %}
+                            <input class="review_create_button" type="submit" value="Envoyer">
+                        </form>
                     </div>
-                    <div class="input-wrapper">
-                        <label for="body">Commentaire&nbsp;:</label>
-                        <textarea class="id_body" id="id_body" rows="4" cols="50" required="" name="{{ edit_review_form.body.name }}">{{ edit_review_form.body.value }} </textarea>
-                    </div> 
                 </div>
                 <div class="ticket">
                     <div class="author">
@@ -48,9 +54,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="post-button">
-                    <button class="button-right" type="submit">Envoyer</button>
                 </div>
             </form>
         </div>

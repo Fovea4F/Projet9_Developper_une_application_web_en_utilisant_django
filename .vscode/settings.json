@@ -5,5 +5,8 @@
         "litreview",
         "redirectsignup"
     ],
-    "github.gitAuthentication": true
+    "github.gitAuthentication": true,
+    "cSpell.ignoreWords": [
+        "unfollowed"
+    ]
 }

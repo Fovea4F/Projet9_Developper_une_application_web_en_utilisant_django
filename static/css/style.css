@@ -307,15 +307,22 @@ html, body {
 }
 
 .radio {
-    width: 50vw;
+    display: flex;
+    margin: 20px;
+    margin-left: 0px;
 }
 
 .radio-inline {
+    display: flex;
     justify-content: space-between;
-    display: inline-flex;
-    width: 50vw;
-    margin-left: 20px;
-    margin-top: 10px;
+    width: 35vw;
+    margin-left: 80px;
+    
+}
+
+.radio-inline > div > div {
+    display: inline-block;
+    margin-right: 40px;
 }
 
 .id_headline {
@@ -389,7 +396,7 @@ html, body {
     }
 }
 
-.follows_user{
+.follow_users{
     justify-items: center;
     display: grid;
 }
