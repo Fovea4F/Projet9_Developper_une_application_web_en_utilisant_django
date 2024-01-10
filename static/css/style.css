@@ -128,6 +128,10 @@ html, body {
     text-align: center;
 }
 
+.ticket_title {
+    justify-content: center;
+}
+
 .flux {
     border: 3px solid #000;
     padding: 5px;
@@ -185,6 +189,13 @@ html, body {
     width: 99%
 }
 
+.new-ticket {
+    text-align: left;
+    width: auto;
+    margin: 20px;
+    font-size: x-large;
+}
+
 .author {
     text-align: left;
 }
@@ -211,6 +222,12 @@ html, body {
     margin-top: 20;
     width: 200px;
     height: 30px;
+}
+
+.new-post {
+    display: flex;
+    align-items: center;
+    padding: 2px;
 }
 
 .suppress-ticket {
@@ -333,6 +350,14 @@ html, body {
     border: 2px solid black;
 }
 
+.id_title{
+    font-size: inherit;
+    margin-top: 10px;
+    width: 71vw;
+    height: 30px;
+    border: 2px solid black;
+}
+
 .id_body {
     vertical-align: text-top;
     word-wrap: break-word;
@@ -399,4 +424,52 @@ html, body {
 .follow_users{
     justify-items: center;
     display: grid;
+}
+
+.review-ticket-submit{
+    width: 95%;
+    height: 30px;
+    justify-items: right;
+    display: grid;
+    button {
+        height: 30px;
+        width: 200px;
+    }
+}
+
+
+new-ticket {
+    width: 95%;
+}
+
+.id_image {
+    display: inline-block;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid gray;
+    margin: 10px;
+}
+
+.input_file {
+    display: none;
+}
+
+.new_ticket_container {
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    label {
+        margin: 10px;
+    }
+}
+
+.custom_file_upload {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid grey;
+    display: inline-block;
+    border-radius: 5px;
 }

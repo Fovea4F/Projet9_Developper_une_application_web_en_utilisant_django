@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from . import models
+from review.models import UserFollows
 
 User = get_user_model()
 
@@ -10,16 +11,7 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = models.Ticket
-        fields = ['user', 'title', 'description', 'image']
-
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-
-        if user:
-            self.fields['user'].initial = user
-            self.fields['user'].queryset = User.objects.filter(pk=user.pk)
-            self.fields['user'].widget.attrs['readonly'] = True
+        fields = ['title', 'description', 'image']
 
 
 class DeleteTicketForm(forms.Form):
@@ -52,15 +44,16 @@ class ReviewFormDual(forms.ModelForm):
 class FollowsUsersForm(forms.ModelForm):
 
     class Meta:
-        model = User
-        fields = ['follows']
+        model = UserFollows
+        fields = ['followed_user',]
+        labels = {'followed_user': 'Abonné'}
 
     def __init__(self, *args, **kwargs):
         filtered_queryset = kwargs.pop('filtered_queryset', None)
         super(FollowsUsersForm, self).__init__(*args, **kwargs)
 
-    # 'queryset' used to dynamically filter du champ ModelChoiceField
-        self.fields['user'].queryset = filtered_queryset
+        # 'queryset' used to dynamically filter du champ ModelChoiceField
+        self.fields['followed_user'].queryset = filtered_queryset
 
 
 class RatingForm(forms.Form):

@@ -3,20 +3,58 @@
 
 {% block content %}
     <div class="main-container">
+        <h2> Créer une critique</h2>
         <div class="flux">
-            <h2> Créer un ticket </h2>
             <form method="post" enctype="multipart/form-data">
-                <div class="post">
-                    <h3>Livre / Article</h3>
-                    {{ ticket_form.as_p }}
+            {% csrf_token %}
+            <h3> Livre / Article </h3>
+            <div class="new-post">
+                <div class="new-ticket">
+                    <div class="new_ticket_container">
+                        <label for="id_title">Titre&nbsp;:</label>
+                        <input class="id_title" type="text" name="title" maxlength="128" required="" id="id_title" placeholder="Saisissez un titre ...">    
+                    </div>
+
+                    <div class="input-wrapper new_ticket_container">
+                        <label for="id_description">Description&nbsp;:</label>
+                        <textarea class="id_description id_body" name="description" rows="4" cols="50" maxlength="2048" required="" id="id_description"></textarea>
+                    </div>
+
+                    <div class="new_ticket_container">
+                        <label>Image&nbsp;:</label>
+                        <label class="id_image" for="id_image">Télécharger un fichier</label>
+                        <input class="input_file" type="file" name="image" accept="image/*" required="" id="id_image">
+                    </div>
                 </div>
-                <hr>
-                <div class="post">
-                    <h3>Critique</h3>
-                    {{ review_form.as_p }}
+            </div>
+            <hr>
+            <h3>Critique</h3>
+            <div class="new-post">
+                <div class="review">
+                    <p>
+                        <label for="id_headline" >Titre&nbsp;:</label>
+                        <input class="id_headline" type="text" name="headline" maxlength="128" placeholder="" required="" id="id_headline" >
+                    </p>
+                    <div class="radio">
+                        <label for="id_rating">Note&nbsp;:</label>
+                        <div class="radio-inline">
+                            <div><input type="radio" id="option0" name="rating" value="0" required> - 0</div>
+                            <div><input type="radio" id="option1" name="rating" value="1"> - 1</div>
+                            <div><input type="radio" id="option2" name="rating" value="2"> - 2</div>
+                            <div><input type="radio" id="option3" name="rating" value="3"> - 3</div>
+                            <div><input type="radio" id="option4" name="rating" value="4"> - 4</div>
+                            <div><input type="radio" id="option5" name="rating" value="5"> - 5</div>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="id_body">Commentaire&nbsp;:</label>
+                        <textarea class="id_body" id="id_body" name="body" rows="4" cols="50" placeholder="Saisissez votre avis...." required=""></textarea>
+                    </div>
                 </div>
-                {% csrf_token %}
-                <button type="submit" >Publier</button>
+            </div>
+            <div class="review-ticket-submit">
+                <button type="submit">Envoyer</button>
+            </div>
             </form>
         </div>
     </div>  

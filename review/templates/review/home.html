@@ -4,10 +4,12 @@
 {% block content %}
     <div class="flux-button-container">
         {% if user.is_authenticated %}
-            <p>
-                <button class="flux-button-left" onclick="window.location.href='{% url 'ticket_create' %}'">Demander une critique</button>
-                <button class="flux-button-right" onclick="window.location.href='{% url 'review_ticket_create' %}'">Créer une Critique</button>
-            </p>
+            <div class="button">
+                <p>
+                    <button class="flux-button-left" onclick="window.location.href='{% url 'ticket_create' %}'">Demander une critique</button>
+                    <button class="flux-button-right" onclick="window.location.href='{% url 'review_ticket_create' %}'">Créer une Critique</button>
+                </p>
+            </div>
         {% endif %}
     </div>
 
@@ -54,7 +56,6 @@
                         <div class="image-container">
                             <img class="image" src="{{ element.0.image.url }}" alt="">
                             <div class="description">
-                                <h2>Description :</h2>
                                 <p>
                                     {{ element.0.description }}
                                 </p>
@@ -65,5 +66,4 @@
             </div>
         </div>
     {% endfor %}
-
 {% endblock content %}

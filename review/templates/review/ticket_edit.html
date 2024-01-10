@@ -4,8 +4,28 @@
 {% block content %}
     <h2>Modifier le billet</h2>
     <form method="post">
-        {{ edit_form.as_p}}
+        <div class="ticket">
+            <div class="author">
+                <h4 > Ticket - {{ user.username }} </h4>
+                <input type="hidden" name="edit_ticket" value="{{ edit_form.edit_ticket.value }}">
+                <p>
+                    <label for="id_title" >Titre</label><br>
+                    <input class="id_title" type="text" name="title" maxlength="128" value="{{ edit_form.title.value }}" required="" id="id_title" placeholder="Titre de votre critique">
+                </p>
+                <div class="image-container">
+                    <label for="customFileInput" class="custom_file_upload">Télécharger fichier</label>
+                    <div>{{ edit_form.initial.image.name }}</div>
+                    <input id=customFileInput type="file" name="image" style="display:none">
+                </div>
+                <div class="description">
+                    <p>
+                        <label for="id_description" >Description</label><br>
+                        <textarea class="id_description id_body"  id="id_description" name="description" rows="4" cols="50" maxlength="2048" required="">{{ edit_form.description.value }}</textarea>
+                    </p>
+                </div>
+            </div>
+        </div>
         {% csrf_token %}
-        <button type="submit" >Sauvegarder</button>
+        <input class="button_save" type="submit" value="Sauvegarder">
     </form>
 {% endblock content %}

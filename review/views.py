@@ -1,11 +1,10 @@
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from review.models import Ticket, Review
 from authentication.models import User
 from .forms import TicketForm, ReviewForm, ReviewFormDual, DeleteTicketForm, DeleteReviewForm
-from .forms import FollowsUsersForm, RatingForm
+from .forms import RatingForm, FollowsUsersForm
 
 
 @login_required
@@ -31,7 +30,9 @@ def post(request):
         review = ticket.review_set.first()
         if not review:
             review = ''
-        tickets_and_review.append((ticket, review))
+        else:
+            ticket.review_created = True
+            tickets_and_review.append((ticket, review))
     context = {
         'tickets_and_review': tickets_and_review
         }
@@ -54,6 +55,11 @@ def ticket_create(request):
             ticket.user = request.user
             ticket.save()
             return redirect('home')
+        else:
+            ticket_form = TicketForm()
+    else:
+        ticket_form = TicketForm()
+
     context = {'ticket_form': ticket_form}
     return render(request, 'review/ticket_create.html', context=context)
 
@@ -149,8 +155,8 @@ def review_create(request, ticket_id):
 
 @login_required
 def review_ticket_create(request):
-    ticket_form = TicketForm(request.user)
-    review_form = ReviewFormDual(request.user)
+    ticket_form = TicketForm()
+    review_form = ReviewFormDual()
 
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, request.FILES)
@@ -167,10 +173,8 @@ def review_ticket_create(request):
                     review.save()
         return redirect('home')
     else:
-        ticket_form = TicketForm(user=request.user)
-        # ticket_form.fields['user'].widget.attrs['disabled'] = 'disabled'
+        ticket_form = TicketForm(request.user)
         review_form = ReviewFormDual(initial={'rating': None})
-
     context = {
         'review_form': review_form,
         'ticket_form': ticket_form,
@@ -182,9 +186,9 @@ def review_ticket_create(request):
 def review_ticket_edit(request, ticket_id):
 
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    review = get_object_or_404(Review, ticket_id=ticket.id)
+    review = get_object_or_404(Review, ticket_id=ticket_id)
     # ticket_form = TicketForm(instance=ticket)
-    review_form = ReviewForm(instance=Review)
+    review_form = ReviewForm(instance=review)
     if request.method == 'POST':
         review_form = ReviewForm(request.POST, instance=review)
         if review_form.is_valid():
@@ -193,7 +197,7 @@ def review_ticket_edit(request, ticket_id):
         else:
             print(review_form.errors)
             ticket = get_object_or_404(Ticket, id=ticket_id)
-            review = get_object_or_404(Review, ticket_id=ticket.id)
+            review = get_object_or_404(Review, ticket_id=ticket_id)
             review_form = ReviewForm(instance=review)
             rating_form = RatingForm(initial={'rating': review.rating})
     else:
@@ -226,59 +230,30 @@ def review_delete(request, review_id):
 
 
 @login_required
-def follow_users_ori(request):
+def follow_users(request):
+    user = request.user
+    user_follows = user.follows.all()
+    user_followers = user.followed_by.all()
+    other_users = (
+        User.objects
+        .exclude(pk=user.pk)
+        .exclude(is_staff=True)
+        .exclude(pk__in=user_follows)
+        .exclude(pk__in=user_followers)
+        )
 
+    form = FollowsUsersForm()
+    form = FollowsUsersForm(instance=request.user, filtered_queryset=other_users)
     if request.method == 'POST':
-        form = FollowsUsersForm(request.POST)
+        form = FollowsUsersForm(request.POST, instance=request.user, filtered_queryset=other_users)
         if form.is_valid():
             form.save(commit=False)
-            form.save()
-            return redirect('home')
-    else:
-        form = FollowsUsersForm(request.user)
-        print('toto')
-
-    context = {'form': form}
-
-    return render(request, 'review/follow_users.html', context)
-
-
-@login_required
-def follow_users2(request):
-    form = FollowsUsersForm(instance=request.user)
-    if request.method == 'POST':
-        form = FollowsUsersForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    return render(request, 'review/follow_users.html', context={'form': form})
-
-
-@login_required
-def follow_users_test(request):
-
-    filtered_users = User.objects.exclude(pk=request.user.pk).exclude(is_staff=True)
-
-    form = FollowsUsersForm(instance=request.user, filtered_queryset=filtered_users)
-    if request.method == 'POST':
-        form = FollowsUsersForm(request.POST, instance=request.user, filtered_queryset=filtered_users)
-        if form.is_valid():
+            form.user = request.user
             form.save()
             return redirect('home')
 
-    return render(request, 'review/follow_users_form.html', context={'form': form})
+    context = {
+        'form': form,
+        }
 
-
-@login_required
-def follow_users(request):
-
-    filtered_users = User.objects.exclude(pk=request.user.pk).exclude(is_staff=True)
-
-    form = FollowsUsersForm(instance=request.user, filtered_queryset=filtered_users)
-    if request.method == 'POST':
-        form = FollowsUsersForm(request.POST, instance=request.user, filtered_queryset=filtered_users)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-
-    return render(request, 'review/follow_users_form.html', context={'form': form})
+    return render(request, 'review/follow_users_form.html', context=context)

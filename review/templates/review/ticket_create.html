@@ -7,15 +7,25 @@
         <h2> Créer un ticket </h2>
         <form method="post" enctype="multipart/form-data">
             <div class="post">
-                <h3>Livre / Article</h3>
-                {{ ticket_form.as_p }}
+                <p>
+                    <label for="id_title">Titre&nbsp;:</label>
+                    <input type="text" name="title" maxlength="128" required="" id="id_title" placeholder="Saisissez un titre ...">    
+                </p>
+    
+                <p>
+                    <label for="id_description">Description&nbsp;:</label>
+                    <textarea name="description" cols="40" rows="10" maxlength="2048" required="" id="id_description"></textarea>
+                </p>
+                  
+                <p>
+                    <label for="id_image">Image&nbsp;:</label>
+                    <input type="file" name="image" accept="image/*" required="" id="id_image">
+                    <input type="hidden" name="edit_ticket" value="True" id="id_edit_ticket">	
+                </p>
             </div>
+            {% csrf_token %}
+            <button type="submit" >Envoyer</button>
         </form>
     </div>
-</div>    <h2>Créer un ticket</h2>
-    <form method="post" enctype="multipart/form-data">
-        {{ ticket_form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Envoyer</button>
-    </form>
+</div>
 {% endblock content %}
