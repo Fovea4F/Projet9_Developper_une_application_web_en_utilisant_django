@@ -23,4 +23,4 @@ Suivant des WireFrames proposées, développer les pages suivantes :
 * Lancer le serveur web avec la commande _python manage.py runserver (port:8000)_
 * Depuis l'interface web, User d'administration : 'admin' : Mdp 'Password'
 
-_(accès aux utilisateur et changement de mot de passe)_
+_(accès aux utilisateurs et changement de mot de passe)_
